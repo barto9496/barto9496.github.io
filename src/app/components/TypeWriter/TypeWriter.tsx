@@ -7,7 +7,13 @@ const vt323 = VT323({
   subsets: ["latin"],
 });
 
-export const Typewriter = ({ text, delay }) => {
+export const Typewriter = ({
+  text,
+  delay,
+}: {
+  text: string;
+  delay: number;
+}) => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
