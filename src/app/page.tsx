@@ -2,13 +2,12 @@
 // import nextConfig from "../../next.config";
 //
 import Typewriter from "./components/TypeWriter/TypeWriter";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 
 export default function Home() {
   return (
-    <div className="flex-col justify-center justify-items-center">
+    <div>
       <Typewriter text={"$Amogh_Umesh_Katti"} delay={100} />
-      <Button variant="text">Outlined</Button>
     </div>
   );
 }
