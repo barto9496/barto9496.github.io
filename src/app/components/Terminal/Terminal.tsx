@@ -101,7 +101,7 @@ export default function Terminal() {
   return (
     <>
       <Image
-        src={`${getBasePath()}/rickroll_slowed.gif`}
+        src={`/rickroll_slowed.gif`}
         alt="Rick Roll"
         className={styles.background}
         aria-hidden="true"
