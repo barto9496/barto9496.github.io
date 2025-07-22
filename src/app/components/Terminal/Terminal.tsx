@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Typewriter from "../TypeWriter/TypeWriter";
 import styles from "./Terminal.module.css";
-import { getBasePath } from "@/app/utils/basePathUtil";
 
 const PROMPT = "$";
 const initialLines = [
