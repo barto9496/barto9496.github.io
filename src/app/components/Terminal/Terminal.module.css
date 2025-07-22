@@ -1,0 +1,62 @@
+.background {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.terminal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(24, 24, 26, 0.85); /* semi-transparent overlay */
+  color: #39ff14;
+  font-family: 'VT323', monospace;
+  padding: 2rem;
+  z-index: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-size: 1.2em; /* base font size */
+}
+
+.line {
+  margin-bottom: 0.2em;
+  font-size: inherit; /* inherit from .terminal */
+  white-space: pre-wrap;
+}
+
+.prompt {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  color: #39ff14;
+  font-family: inherit;
+  font-size: inherit; /* inherit from .terminal */
+  outline: none;
+  width: auto;
+  flex: 1;
+  min-width: 2ch;
+  caret-color: #39ff14; /* green caret */
+}
+
+.textCursor {
+  font-size: inherit; /* inherit from .terminal */
+  color: #39ff14;
+  margin-left: -2px;
+  animation: blink 1s steps(2, start) infinite;
+  user-select: none;
+}
+
+@keyframes blink {
+  to { opacity: 0; }
+}

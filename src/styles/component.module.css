@@ -1,5 +1,6 @@
 .text {
     font-weight: 200;
-    font-size: 60px;
-    color: #4af626;
+    font-size: inherit;      /* Inherit font size from parent for consistency */
+    color: #39ff14;
+    font-family: 'VT323', monospace;
 }

@@ -1,52 +1,57 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { VT323 } from "next/font/google";
-import { Button } from "@mui/material";
 import styles from "../../../styles/component.module.css";
 const vt323 = VT323({
   weight: "400",
   subsets: ["latin"],
 });
 
-interface typeWriterProps {
+interface TypeWriterProps {
   text: string;
   delay: number;
+  byWord?: boolean;
+  onAnimationEnd?: () => void; // <-- Add this line
 }
 
-export const Typewriter = ({ text, delay }: typeWriterProps) => {
+export const Typewriter = ({ text, delay, byWord = false, onAnimationEnd }: TypeWriterProps) => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showButton, setShowButton] = useState(false);
-
-  const onShowAlert = () => {
-    alert("Rendering a new page");
-  };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (currentIndex < text.length) {
-        setCurrentText((prevText) => prevText + text[currentIndex]);
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      }
-      if (currentIndex == text.length) {
-        setShowButton(true);
-      }
-    }, delay);
+    setCurrentText("");
+    setCurrentIndex(0);
+  }, [text, byWord]);
 
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (byWord) {
+      const words = text.split(" ");
+      if (currentIndex < words.length) {
+        timeout = setTimeout(() => {
+          setCurrentText((prev) => (prev ? prev + " " : "") + words[currentIndex]);
+          setCurrentIndex((prev) => prev + 1);
+        }, delay);
+      } else if (onAnimationEnd) {
+        onAnimationEnd(); // <-- Call when done
+      }
+    } else {
+      if (currentIndex < text.length) {
+        timeout = setTimeout(() => {
+          setCurrentText((prev) => prev + text[currentIndex]);
+          setCurrentIndex((prev) => prev + 1);
+        }, delay);
+      } else if (onAnimationEnd) {
+        onAnimationEnd(); // <-- Call when done
+      }
+    }
     return () => clearTimeout(timeout);
-  }, [currentIndex, delay, text]);
+  }, [currentIndex, delay, text, byWord, onAnimationEnd]);
 
   return (
-    <div className="flex-col justify-center justify-items-center h-full">
-      <main className={vt323.className}>
-        <div className={styles.text}>{currentText}</div>
-        {showButton && (
-          <Button variant="text" onClick={onShowAlert}>
-            Know more!
-          </Button>
-        )}
-      </main>
-    </div>
+    <span className={`${vt323.className} ${styles.text}`}>
+      {currentText}
+    </span>
   );
 };
 
