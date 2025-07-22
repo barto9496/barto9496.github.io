@@ -1,7 +1,9 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Typewriter from "../TypeWriter/TypeWriter";
 import styles from "./Terminal.module.css";
+import { getBasePath } from "@/app/utils/basePathUtil";
 
 const PROMPT = "$";
 const initialLines = [
@@ -12,6 +14,7 @@ const initialLines = [
 export default function Terminal() {
   // Start with empty history
   const [history, setHistory] = useState<string[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [initIndex, setInitIndex] = useState(0);
   const [showPrompt, setShowPrompt] = useState(false);
   const [input, setInput] = useState("");
@@ -97,50 +100,58 @@ export default function Terminal() {
 
   return (
     <>
-        <img
-    src="/rickroll_slowed.gif"
-    alt="Rick Roll"
-    className={styles.background}
-    aria-hidden="true"
-  />
-   
-    <div className={styles.terminal} onClick={() => inputRef.current?.focus()}>
-      {/* Animate each initial line with Typewriter */}
-      {history.map((line, idx) =>
-        idx < initialLines.length ? (
+      <Image
+        src={`${getBasePath()}/rickroll_slowed.gif`}
+        alt="Rick Roll"
+        className={styles.background}
+        aria-hidden="true"
+        fill
+        priority
+        style={{ objectFit: "contain", zIndex: 0, pointerEvents: "none" }}
+      />
+
+      <div
+        className={styles.terminal}
+        onClick={() => inputRef.current?.focus()}
+      >
+        {/* Animate each initial line with Typewriter */}
+        {history.map((line, idx) =>
+          idx < initialLines.length ? (
+            <Typewriter
+              key={idx}
+              text={line}
+              delay={15}
+              onAnimationEnd={() => handleInitialTypewriterDone(idx)}
+            />
+          ) : (
+            <div key={idx} className={styles.line}>
+              {line}
+            </div>
+          )
+        )}
+        {/* Animate pending output with Typewriter */}
+        {pendingOutput && (
           <Typewriter
-            key={idx}
-            text={line}
+            text={pendingOutput}
             delay={15}
-            onAnimationEnd={() => handleInitialTypewriterDone(idx)}
+            onAnimationEnd={handleTypewriterDone}
           />
-        ) : (
-          <div key={idx} className={styles.line}>{line}</div>
-        )
-      )}
-      {/* Animate pending output with Typewriter */}
-      {pendingOutput && (
-        <Typewriter
-          text={pendingOutput}
-          delay={15}
-          onAnimationEnd={handleTypewriterDone}
-        />
-      )}
-      {/* Show prompt only after initial lines are done and not typing */}
-      {showPrompt && !isTyping && (
-        <div className={styles.prompt}>
-          <span>{PROMPT} </span>
-          <input
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className={styles.input}
-            autoFocus
-          />
-        </div>
-      )}
-    </div>
-     </>
+        )}
+        {/* Show prompt only after initial lines are done and not typing */}
+        {showPrompt && !isTyping && (
+          <div className={styles.prompt}>
+            <span>{PROMPT} </span>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className={styles.input}
+              autoFocus
+            />
+          </div>
+        )}
+      </div>
+    </>
   );
 }
