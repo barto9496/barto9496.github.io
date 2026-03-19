@@ -8,7 +8,7 @@ const PROMPT = "$";
 const initialLines = [
   "Welcome to Amogh's Portfolio!",
   "A passionate Senior Software Engineer!",
-  "Type 'help' to see available commands.",
+  "Type 'help' to see all available commands.",
 ];
 
 export default function Terminal() {
