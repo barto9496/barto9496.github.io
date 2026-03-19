@@ -7,7 +7,7 @@ import styles from "./Terminal.module.css";
 const PROMPT = "$";
 const initialLines = [
   "Welcome to Amogh's Portfolio!",
-  "A passionate senior software engineer",
+  "A passionate Senior Software Engineer!",
   "Type 'help' to see available commands.",
 ];
 
